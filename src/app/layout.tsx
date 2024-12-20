@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${lato.variable} ${notoSansJP.variable} ${oi.variable} font-sans antialiased bg-red-50`}
+        className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} ${lato.variable} ${notoSansJP.variable} ${oi.variable} font-sans antialiased bg-zinc-100`}
       >
         {children}
       </body>

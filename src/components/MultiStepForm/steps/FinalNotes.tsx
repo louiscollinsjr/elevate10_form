@@ -157,13 +157,13 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className={`px-6 py-2 bg-blue-500 text-white rounded-lg transition-colors ${
+                      className={` bg-black text-white text-sm py-2 px-4 rounded-lg transition-colors ${
                         isSubmitting 
                           ? 'opacity-50 cursor-not-allowed'
-                          : 'hover:bg-blue-600'
+                          : 'hover:bg-gray-700 '
                       }`}
                     >
-                      {isSubmitting ? 'Submitting...' : 'Submit'}
+                      {isSubmitting ? 'Submitting...' : 'Let\'s create!'}
                     </button>
                   </div>
                 </div>

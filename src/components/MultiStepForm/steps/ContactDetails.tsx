@@ -22,10 +22,18 @@ interface FormErrors {
 }
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string().optional(),
-  lastName: Yup.string().optional(),
-  email: Yup.string().email("Invalid email").optional(),
-  phone: Yup.string().optional(),
+  firstName: Yup.string()
+    .required('Required.')
+    .min(2, 'First name must be at least 2 characters'),
+  lastName: Yup.string()
+    .required('Please enter your last name')
+    .min(2, 'Last name must be at least 2 characters'),
+  email: Yup.string()
+    .email('Please enter a valid email address')
+    .required('Please enter your email address'),
+  phone: Yup.string()
+    .optional()
+    .matches(/^[0-9+\-\s()]*$/, 'Please enter a valid phone number'),
   jobTitle: Yup.string().optional(),
   businessName: Yup.string().optional(),
 });
@@ -89,7 +97,7 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                         placeholder="First name"
                       />
                       {errors.firstName && (
-                        <p className="text-red-500 text-sm mt-2">
+                        <p className="text-red-500 text-xs mt-2">
                           {errors.firstName}
                         </p>
                       )}
@@ -108,7 +116,7 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                         placeholder="Last name"
                       />
                       {errors.lastName && (
-                        <p className="text-red-500 text-sm mt-2">
+                        <p className="text-red-500 text-xs mt-2">
                           {errors.lastName}
                         </p>
                       )}
@@ -127,7 +135,7 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                         placeholder="Email address"
                       />
                       {errors.email && (
-                        <p className="text-red-500 text-sm mt-2">
+                        <p className="text-red-500 text-xs mt-2">
                           {errors.email}
                         </p>
                       )}
@@ -252,8 +260,11 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
 
                     <h3 className="font-medium text-white my-2 mt-4">Partners</h3>
                     <ul className="space-y-2 text-gray-300">
-                      <li>
-                        Actias<b>Luna</b>
+                      <li className="text-lg text-yellow-400">
+                        Actias<b>Luna</b>{" "}
+                        <span className="text-white underline text-xs">
+                          www.actiasluna.eu
+                        </span>
                       </li>
                     </ul>
                   </div>
@@ -279,13 +290,13 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                   </div>
                 </div>
                 <div className="flex items-center space-x-4 pt-12">
-                  <Image
-                    src="https://randomuser.me/api/portraits/women/44.jpg"
+                  {/* <Image
+                    src="/images/signature1.png"
                     alt="Testimonial author"
-                    width={48}
+                    width={348}
                     height={48}
                     className="rounded-full"
-                  />
+                  /> */}
                   <div>
                     <p className="text-white font-medium">Louis Collins</p>
                     <p className="text-gray-300 text-xs">Developer</p>

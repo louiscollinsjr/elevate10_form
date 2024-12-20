@@ -53,30 +53,30 @@ const SubmissionSuccess = ({ formData }: Props) => {
         </div>
 
         {/* Content Section */}
-        <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
+        <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-screen bg-[#f9D617]">
           <div className="flex-1 flex flex-col">
             <div className="pt-24 text-center">
               {/* Success Icon */}
-              <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+              {/* <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                 <svg className="w-8 h-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-              </div>
+              </div> */}
               
               <h2 className="text-4xl font-roboto font-bold mb-4">Thank You, {formData.firstName}!</h2>
-              <p className="text-gray-600 mb-8">
+              <p className="text-black mb-8 max-w-lg mx-auto">
                 Your project request has been successfully submitted. We&apos;ll review your requirements and get back to you within 24 hours.
               </p>
 
               {/* Next Steps */}
-              <div className="bg-blue-50 p-6 rounded-xl mb-8">
-                <h3 className="font-semibold text-blue-900 mb-4">Next Steps:</h3>
+              <div className="bg-[#0071C9] p-6 rounded-xl mb-8 px-12 pb-12 max-w-lg mx-auto">
+                <h3 className="font-semibold text-white mb-4 text-3xl text-left">Next Steps:</h3>
                 <ul className="space-y-3 text-left">
                   <li className="flex items-start">
                     <span className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-0.5">
                       <span className="text-blue-600 text-sm font-semibold">1</span>
                     </span>
-                    <span className="text-blue-800">
+                    <span className="text-white">
                       We&apos;ll review your project requirements in detail
                     </span>
                   </li>
@@ -84,7 +84,7 @@ const SubmissionSuccess = ({ formData }: Props) => {
                     <span className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-0.5">
                       <span className="text-blue-600 text-sm font-semibold">2</span>
                     </span>
-                    <span className="text-blue-800">
+                    <span className="text-white">
                       Our team will reach out to schedule an initial consultation
                     </span>
                   </li>
@@ -92,7 +92,7 @@ const SubmissionSuccess = ({ formData }: Props) => {
                     <span className="flex-shrink-0 w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3 mt-0.5">
                       <span className="text-blue-600 text-sm font-semibold">3</span>
                     </span>
-                    <span className="text-blue-800">
+                    <span className="text-white">
                       We&apos;ll create a detailed project timeline and begin development
                     </span>
                   </li>
@@ -106,6 +106,12 @@ const SubmissionSuccess = ({ formData }: Props) => {
                   Email us at{' '}
                   <a href="mailto:hello@atem.gdn" className="text-blue-600 hover:text-blue-700">
                     hello@atem.gdn
+                  </a>
+                </p>
+                <p className="text-gray-800 font-medium">
+                  Visit us at{' '}
+                  <a href="https://atem.gdn" className="text-blue-600 hover:text-blue-700">
+                    atem.gdn
                   </a>
                 </p>
               </div>
