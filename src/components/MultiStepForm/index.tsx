@@ -16,20 +16,22 @@ const MultiStepForm: React.FC = () => {
     lastName: '',
     email: '',
     phone: '',
+    jobTitle: '',
     businessName: '',
     projectGoals: '',
     targetAudience: '',
     uniqueSellingPoints: '',
     designStyle: '',
-    colorPreferences: '',
     websiteExamples: '',
-    contentPlan: '',
-    contentCreation: '',
-    existingAssets: '',
+    contentTypes: '',
+    needsContentHelp: 'false',
+    otherContentType: '',
+    specialRequirements: '',
     budget: '',
     timeline: '',
     launchDate: '',
     additionalNotes: '',
+    agreementAccepted: 'false'
   });
 
   const updateFormData = (newData: Partial<MultiStepFormData>) => {

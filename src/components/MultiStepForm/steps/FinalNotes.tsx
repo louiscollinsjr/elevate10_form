@@ -4,13 +4,16 @@ import { useWizard } from 'react-use-wizard';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import Image from 'next/image';
+import PackageDetailsModal from '../../Modal/PackageDetailsModal';
 
 import { MultiStepFormData } from '../types';
 
 const validationSchema = Yup.object().shape({
   additionalRequirements: Yup.string().optional(),
   questions: Yup.string().optional(),
-  preferredContact: Yup.string().optional(),
+  agreementAccepted: Yup.string()
+    .oneOf(['true'], 'You must accept the terms and conditions to proceed')
+    .required('You must accept the terms and conditions to proceed')
 });
 
 interface Props {
@@ -18,10 +21,10 @@ interface Props {
   updateFormData: (data: Partial<MultiStepFormData>) => void;
 }
 
-
 const FinalNotes = ({ formData, updateFormData }: Props) => {
   const { nextStep, previousStep, activeStep, stepCount } = useWizard();
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,9 +57,9 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
           {/* Form Section */}
           <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
-              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Final Notes</h2>
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Your Project Is Almost Ready</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
-                Share any additional information or questions you have about your website project.
+              Your Vision is Taking Shape. Add any final thoughts or special requests. We’re excited to bring your project to life!
               </p>
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
@@ -89,17 +92,30 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
                       )}
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold mb-2">Preferred Contact Method</label>
-                      <textarea
-                        name="preferredContact"
-                        value={formData.preferredContact}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="How would you prefer we contact you? (Email, phone, specific time of day?)"
-                      />
-                      {errors.preferredContact && (
-                        <p className="text-red-500 text-sm mt-2">{errors.preferredContact}</p>
+                    <div className="mt-8">
+                      <div className="flex items-center p-3 border-0 rounded-lg hover:bg-gray-50">
+                        <input
+                          type="checkbox"
+                          id="agreementAccepted"
+                          name="agreementAccepted"
+                          checked={formData.agreementAccepted === 'true'}
+                          onChange={(e) => updateFormData({ agreementAccepted: e.target.checked.toString() })}
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label htmlFor="agreementAccepted" className="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
+                          I understand to the terms and conditions of the{' '}
+                          <button
+                            type="button"
+                            onClick={() => setIsModalOpen(true)}
+                            className="text-blue-600 hover:text-blue-700 font-medium underline focus:outline-none"
+                          >
+                            Elevate10+ package
+                          </button>
+                          , including the outlined scope of work, pricing, timeline, and payment terms.
+                        </label>
+                      </div>
+                      {errors.agreementAccepted && (
+                        <p className="text-red-500 text-sm mt-2">{errors.agreementAccepted}</p>
                       )}
                     </div>
                   </div>
@@ -166,6 +182,11 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
           </div>
         </div>
       </div>
+
+      <PackageDetailsModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };

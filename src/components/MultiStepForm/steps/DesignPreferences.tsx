@@ -8,7 +8,6 @@ import { MultiStepFormData } from '../types';
 
 const validationSchema = Yup.object().shape({
   designStyle: Yup.string().optional(),
-  colorPreferences: Yup.string().optional(),
   websiteExamples: Yup.string().optional(),
 });
 
@@ -16,7 +15,6 @@ interface Props {
   formData: MultiStepFormData;
   updateFormData: (data: Partial<MultiStepFormData>) => void;
 }
-
 
 const DesignPreferences = ({ formData, updateFormData }: Props) => {
   const { nextStep, previousStep, activeStep, stepCount } = useWizard();
@@ -53,21 +51,21 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
           {/* Form Section */}
           <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
-              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Design Preferences</h2>
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Style & Examples</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
-                Tell us about your design preferences to help us create a website that matches your style.
+                Tell us about your design preferences to help us create designs that matches your style.
               </p>
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
                   <div className="grid grid-cols-1 gap-8">
                     <div>
-                      <label className="block text-xs font-bold mb-2">Design Style</label>
+                      <label className="block text-xs font-bold mb-2">Brand Guidelines/Preferences</label>
                       <textarea
                         name="designStyle"
                         value={formData.designStyle}
                         onChange={handleChange}
                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="Describe your preferred design style (e.g., modern, minimalist, bold, traditional)"
+                        placeholder="What colors or styles match your business? (e.g., modern, minimalist, bold, traditional)"
                       />
                       {errors.designStyle && (
                         <p className="text-red-500 text-sm mt-2">{errors.designStyle}</p>
@@ -75,21 +73,7 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-2">Color Preferences</label>
-                      <textarea
-                        name="colorPreferences"
-                        value={formData.colorPreferences}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="What colors would you like to use? Any specific color combinations?"
-                      />
-                      {errors.colorPreferences && (
-                        <p className="text-red-500 text-sm mt-2">{errors.colorPreferences}</p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-xs font-bold mb-2">Website Examples</label>
+                      <label className="block text-xs font-bold mb-2">Inspiration (Similar projects/companies you admire)</label>
                       <textarea
                         name="websiteExamples"
                         value={formData.websiteExamples}

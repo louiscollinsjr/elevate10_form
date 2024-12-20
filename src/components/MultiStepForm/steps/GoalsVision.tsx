@@ -65,9 +65,9 @@ const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
           {/* Form Section */}
           <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
-              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Vision & Goals</h2>
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Project Goals and Vision</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
-                Help us understand your vision and goals for your website. This will guide our design process.
+              Tell us about what you want to achieve.
               </p>
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
@@ -79,7 +79,7 @@ const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
                         value={formData.projectGoals}
                         onChange={handleChange}
                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="What are the main objectives you want to achieve with your website?"
+                        placeholder="What are the main objectives you want to achieve with your project? What problems do you need to solve?"
                       />
                       {errors.projectGoals && (
                         <p className="text-red-500 text-sm mt-2">{errors.projectGoals}</p>
@@ -87,13 +87,13 @@ const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-2">Target Audience</label>
+                      <label className="block text-xs font-bold mb-2">Who are your main customers?</label>
                       <textarea
                         name="targetAudience"
                         value={formData.targetAudience}
                         onChange={handleChange}
                         className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="Describe your ideal customers or website visitors"
+                        placeholder="Who is your target audience?Describe your ideal customers or website visitors."
                       />
                       {errors.targetAudience && (
                         <p className="text-red-500 text-sm mt-2">{errors.targetAudience}</p>

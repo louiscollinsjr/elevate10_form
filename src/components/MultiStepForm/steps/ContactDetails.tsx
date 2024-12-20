@@ -17,6 +17,7 @@ interface FormErrors {
   lastName?: string;
   email?: string;
   phone?: string;
+  jobTitle?: string;
   businessName?: string;
 }
 
@@ -25,6 +26,7 @@ const validationSchema = Yup.object().shape({
   lastName: Yup.string().optional(),
   email: Yup.string().email("Invalid email").optional(),
   phone: Yup.string().optional(),
+  jobTitle: Yup.string().optional(),
   businessName: Yup.string().optional(),
 });
 
@@ -69,8 +71,7 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                 Let&apos;s work together
               </h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
-                We&apos;s a full-service agency dedicated to helping you go from
-                MVP to inductry leader. Let our team bring your goals to life.
+              We help businesses grow and stand out in the market. Our team will work with you to bring your ideas to life.
               </p>
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
@@ -147,6 +148,25 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                       {errors.phone && (
                         <p className="text-red-500 text-sm mt-2">
                           {errors.phone}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="col-span-2">
+                      <label className="block text-xs font-bold mb-2">
+                        Job Title / Role
+                      </label>
+                      <input
+                        type="text"
+                        name="jobTitle"
+                        value={formData.jobTitle}
+                        onChange={handleChange}
+                        className="w-full p-2 border-2 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        placeholder="What is your role in the organization?"
+                      />
+                      {errors.jobTitle && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {errors.jobTitle}
                         </p>
                       )}
                     </div>

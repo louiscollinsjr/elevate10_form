@@ -4,11 +4,13 @@ import { useWizard } from 'react-use-wizard';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import Image from 'next/image';
+import { PenNib, FileText, TwitterLogo, Sparkle, ImageSquare, Video } from '@phosphor-icons/react';
 import { MultiStepFormData } from '../types';
 
 const validationSchema = Yup.object().shape({
-  contentType: Yup.string().optional(),
-  contentSource: Yup.string().optional(),
+  contentTypes: Yup.string().optional(),
+  otherContentType: Yup.string().optional(),
+  needsContentHelp: Yup.string().optional(),
   specialRequirements: Yup.string().optional(),
 });
 
@@ -59,32 +61,67 @@ const ContentLogistics = ({ formData, updateFormData }: Props) => {
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
                   <div className="grid grid-cols-1 gap-8">
-                    <div>
-                      <label className="block text-xs font-bold mb-2">Content Type</label>
-                      <textarea
-                        name="contentType"
-                        value={formData.contentType}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="What type of content will your website need? (e.g., text, images, videos, blog posts)"
-                      />
-                      {errors.contentType && (
-                        <p className="text-red-500 text-sm mt-2">{errors.contentType}</p>
+                    <div className="mb-1">
+                      <label className="block text-xs font-bold mb-4">What type of content do you need for your project?</label>
+                      <div className="grid grid-cols-3 gap-4">
+                        {[
+                          { name: 'Written content', icon: PenNib },
+                          { name: 'Photos/Images', icon: ImageSquare },
+                          { name: 'Videos', icon: Video },
+                          { name: 'Logo design', icon: FileText },
+                          { name: 'Social media', icon: TwitterLogo },
+                          { name: 'Other', icon: Sparkle }
+                        ].map(({ name, icon: Icon }) => (
+                          <button
+                            key={name}
+                            type="button"
+                            onClick={() => {
+                              const currentTypes = formData.contentTypes ? formData.contentTypes.split(',') : [];
+                              const newTypes = currentTypes.includes(name)
+                                ? currentTypes.filter(t => t !== name)
+                                : [...currentTypes, name];
+                              updateFormData({ contentTypes: newTypes.join(',') });
+                            }}
+                            className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all ${
+                              formData.contentTypes?.includes(name)
+                                ? 'bg-blue-50 border-2 border-blue-500 text-blue-700'
+                                : 'bg-white border border-gray-200 text-gray-600 hover:border-blue-200 hover:bg-blue-50'
+                            }`}
+                          >
+                            <Icon className="w-6 h-6 mb-2" weight={formData.contentTypes?.includes(name) ? "fill" : "regular"} />
+                            <span className="text-sm font-medium">{name}</span>
+                          </button>
+                        ))}
+                      </div>
+
+                      {formData.contentTypes?.includes('Other') && (
+                        <div className="mt-4">
+                          <input
+                            type="text"
+                            name="otherContentType"
+                            value={formData.otherContentType || ''}
+                            onChange={handleChange}
+                            placeholder="Please specify other services needed"
+                            className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                          />
+                        </div>
                       )}
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold mb-2">Content Source</label>
-                      <textarea
-                        name="contentSource"
-                        value={formData.contentSource}
-                        onChange={handleChange}
-                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
-                        placeholder="Will you provide the content or do you need content creation services?"
-                      />
-                      {errors.contentSource && (
-                        <p className="text-red-500 text-sm mt-2">{errors.contentSource}</p>
-                      )}
+                    <div className="mb-4">
+                      <div className="flex items-center p-3 border-0 rounded-lg hover:bg-gray-50">
+                        <input
+                          type="checkbox"
+                          id="needsContentHelp"
+                          name="needsContentHelp"
+                          checked={formData.needsContentHelp === 'true'}
+                          onChange={(e) => updateFormData({ needsContentHelp: e.target.checked.toString() })}
+                          className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        <label htmlFor="needsContentHelp" className="ml-3 text-xs font-medium text-gray-700 cursor-pointer">
+                          I need help with creating content
+                        </label>
+                      </div>
                     </div>
 
                     <div>
