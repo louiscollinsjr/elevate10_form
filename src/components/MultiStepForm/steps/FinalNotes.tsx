@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import Image from 'next/image';
 import PackageDetailsModal from '../../Modal/PackageDetailsModal';
+import SubmissionSuccess from './SubmissionSuccess';
 
 import { MultiStepFormData } from '../types';
 
@@ -22,25 +23,27 @@ interface Props {
 }
 
 const FinalNotes = ({ formData, updateFormData }: Props) => {
-  const { nextStep, previousStep, activeStep, stepCount } = useWizard();
+  const { previousStep, activeStep, stepCount } = useWizard();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await validationSchema.validate(formData, { abortEarly: false });
-      nextStep();
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const validationErrors: Record<string, string> = {};
-        err.inner.forEach((error) => {
-          if (error.path) {
-            validationErrors[error.path] = error.message;
-          }
-        });
-        setErrors(validationErrors);
-      }
+      setErrors({});
+      // Here you would typically send the form data to your backend
+      console.log('Form submitted:', formData);
+      setIsSubmitted(true);
+    } catch (err: any) {
+      const validationErrors: Record<string, string> = {};
+      err.inner.forEach((error: any) => {
+        if (error.path) {
+          validationErrors[error.path] = error.message;
+        }
+      });
+      setErrors(validationErrors);
     }
   };
 
@@ -49,6 +52,10 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
     updateFormData({ [name]: value });
     setErrors(prev => ({ ...prev, [name]: '' }));
   };
+
+  if (isSubmitted) {
+    return <SubmissionSuccess formData={formData} />;
+  }
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-300 to-red-300">

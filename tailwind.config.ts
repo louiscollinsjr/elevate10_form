@@ -33,9 +33,9 @@ export default {
         roboto: ['var(--font-roboto)', 'system-ui'],
         lato: ['var(--font-lato)', 'system-ui'],
         'noto-jp': ['var(--font-noto-sans-jp)', 'system-ui'],
+        oi: ['var(--font-oi)', 'system-ui'],
       },
     },
   },
   plugins: [fluid],
 } satisfies Config;
-
