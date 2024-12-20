@@ -273,7 +273,7 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
                       Monthly Maintenance
                     </h3>
                     <p className="text-gray-300">
-                      Plus, with our monthly maintenance plan (€50/month), your
+                      Plus, with our monthly maintenance plan (€30/month), your
                       website stays fresh and secure, giving you peace of mind
                       to focus on what you do best.
                     </p>
