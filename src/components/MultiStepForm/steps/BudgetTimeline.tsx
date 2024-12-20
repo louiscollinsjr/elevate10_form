@@ -3,11 +3,12 @@
 import { useWizard } from 'react-use-wizard';
 import * as Yup from 'yup';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const validationSchema = Yup.object().shape({
-  deadline: Yup.string().required('Please specify your desired timeline'),
-  budget: Yup.string().required('Please select a budget range'),
-  maintenanceOption: Yup.string().required('Please select a maintenance option'),
+  budget: Yup.string().optional(),
+  timeline: Yup.string().optional(),
+  additionalInfo: Yup.string().optional(),
 });
 
 interface Props {
@@ -16,126 +17,153 @@ interface Props {
 }
 
 const BudgetTimeline = ({ formData, updateFormData }: Props) => {
-  const { nextStep, previousStep } = useWizard();
+  const { nextStep, previousStep, activeStep, stepCount } = useWizard();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const stepData = {
-      deadline: formData.deadline,
-      budget: formData.budget,
-      maintenanceOption: formData.maintenanceOption,
-    };
-
     try {
-      await validationSchema.validate(stepData, { abortEarly: false });
+      await validationSchema.validate(formData, { abortEarly: false });
       nextStep();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        const newErrors: Record<string, string> = {};
+        const validationErrors: Record<string, string> = {};
         err.inner.forEach((error) => {
           if (error.path) {
-            newErrors[error.path] = error.message;
+            validationErrors[error.path] = error.message;
           }
         });
-        setErrors(newErrors);
+        setErrors(validationErrors);
       }
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Desired Timeline
-        </label>
-        <select
-          name="deadline"
-          value={formData.deadline}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        >
-          <option value="">Select timeline</option>
-          <option value="1-month">Within 1 month</option>
-          <option value="2-3-months">2-3 months</option>
-          <option value="3-6-months">3-6 months</option>
-          <option value="6-plus-months">6+ months</option>
-          <option value="flexible">Flexible</option>
-        </select>
-        {errors.deadline && (
-          <p className="mt-1 text-sm text-red-600">{errors.deadline}</p>
-        )}
-      </div>
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-300 to-red-300">
+      <div className="container mx-auto min-h-screen grid place-items-center px-4">
+        <div className="flex flex-col md:flex-row h-[1024px] w-full lg:w-[1400px] bg-white font-roboto shadow-2xl rounded-2xl overflow-hidden">
+          {/* Form Section */}
+          <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
+            <div className="flex-1 flex flex-col">
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Budget & Timeline</h2>
+              <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
+                Help us understand your budget and timeline expectations for the project.
+              </p>
+              <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
+                <div className="flex-1 pt-8">
+                  <div className="grid grid-cols-1 gap-8">
+                    <div>
+                      <label className="block text-xs font-bold mb-2">Budget Range</label>
+                      <textarea
+                        name="budget"
+                        value={formData.budget}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="What is your estimated budget range for this project?"
+                      />
+                      {errors.budget && (
+                        <p className="text-red-500 text-sm mt-2">{errors.budget}</p>
+                      )}
+                    </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Budget Range
-        </label>
-        <select
-          name="budget"
-          value={formData.budget}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        >
-          <option value="">Select budget range</option>
-          <option value="under-5k">Under $5,000</option>
-          <option value="5k-10k">$5,000 - $10,000</option>
-          <option value="10k-20k">$10,000 - $20,000</option>
-          <option value="20k-plus">$20,000+</option>
-          <option value="not-sure">Not sure / Need consultation</option>
-        </select>
-        {errors.budget && (
-          <p className="mt-1 text-sm text-red-600">{errors.budget}</p>
-        )}
-      </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2">Timeline Expectations</label>
+                      <textarea
+                        name="timeline"
+                        value={formData.timeline}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="When would you like the project to be completed?"
+                      />
+                      {errors.timeline && (
+                        <p className="text-red-500 text-sm mt-2">{errors.timeline}</p>
+                      )}
+                    </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Maintenance Plan
-        </label>
-        <select
-          name="maintenanceOption"
-          value={formData.maintenanceOption}
-          onChange={handleChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-        >
-          <option value="">Select maintenance option</option>
-          <option value="monthly">Monthly maintenance plan</option>
-          <option value="quarterly">Quarterly maintenance</option>
-          <option value="as-needed">As-needed maintenance</option>
-          <option value="none">No maintenance needed</option>
-          <option value="discuss">Need to discuss options</option>
-        </select>
-        {errors.maintenanceOption && (
-          <p className="mt-1 text-sm text-red-600">{errors.maintenanceOption}</p>
-        )}
-      </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2">Additional Information</label>
+                      <textarea
+                        name="additionalInfo"
+                        value={formData.additionalInfo}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="Any other important details about budget or timeline?"
+                      />
+                      {errors.additionalInfo && (
+                        <p className="text-red-500 text-sm mt-2">{errors.additionalInfo}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
-      <div className="flex justify-between">
-        <button
-          type="button"
-          onClick={previousStep}
-          className="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Previous
-        </button>
-        <button
-          type="submit"
-          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Next Step
-        </button>
+                <div className="pt-8 grid grid-cols-2 items-center">
+                  <div className="text-xs text-gray-500 font-noto-jp">
+                    Step {activeStep + 1} of {stepCount}
+                  </div>
+                  <div className="flex justify-end space-x-4">
+                    <button
+                      type="button"
+                      onClick={previousStep}
+                      className="w-fit bg-gray-100 text-gray-700 text-sm py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="w-fit bg-black text-white text-sm py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+                    >
+                      Continue
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* Image Section */}
+          <div className="w-full md:w-1/2 relative overflow-hidden">
+            {/* Background Image */}
+            <Image
+              src="/images/wbs_designpros_12986_different_paint_color_splash_--v_6.1_a05de3a2-31ab-4c7f-8ca7-e3ccf36580e0.png"
+              alt="Budget Background"
+              fill
+              className="object-cover"
+              priority
+            />
+            {/* Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-700/20"></div>
+            {/* Content */}
+            <div className="absolute inset-0 flex items-end justify-center p-12">
+              <div className="text-white text-left mb-12">
+                <h1 className="text-3xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
+                  &ldquo;They delivered an exceptional website within our budget and timeline. The process was smooth and professional.&rdquo;
+                </h1>
+                <div className="flex items-center space-x-4">
+                  <Image 
+                    src="https://randomuser.me/api/portraits/women/32.jpg" 
+                    alt="Testimonial author" 
+                    width={48}
+                    height={48}
+                    className="rounded-full"
+                  />
+                  <div>
+                    <p className="text-white font-medium">Sarah Martinez</p>
+                    <p className="text-gray-300">CEO, Innovate Solutions</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
   );
 };
 

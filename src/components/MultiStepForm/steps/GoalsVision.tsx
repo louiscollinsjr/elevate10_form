@@ -3,12 +3,12 @@
 import { useWizard } from 'react-use-wizard';
 import * as Yup from 'yup';
 import { useState } from 'react';
+import Image from 'next/image';
 
 const validationSchema = Yup.object().shape({
-  goals: Yup.string().required('Please describe your goals'),
-  targetAudience: Yup.string().required('Target audience is required'),
-  preferredFeatures: Yup.string().required('Please list your preferred features'),
-  inspirationWebsites: Yup.string(),
+  projectGoals: Yup.string().optional(),
+  targetAudience: Yup.string().optional(),
+  uniqueSellingPoints: Yup.string().optional(),
 });
 
 interface Props {
@@ -17,126 +17,153 @@ interface Props {
 }
 
 const GoalsVision = ({ formData, updateFormData }: Props) => {
-  const { nextStep, previousStep } = useWizard();
+  const { nextStep, previousStep, activeStep, stepCount } = useWizard();
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    const stepData = {
-      goals: formData.goals,
-      targetAudience: formData.targetAudience,
-      preferredFeatures: formData.preferredFeatures,
-      inspirationWebsites: formData.inspirationWebsites,
-    };
-
     try {
-      await validationSchema.validate(stepData, { abortEarly: false });
+      await validationSchema.validate(formData, { abortEarly: false });
       nextStep();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        const newErrors: Record<string, string> = {};
+        const validationErrors: Record<string, string> = {};
         err.inner.forEach((error) => {
           if (error.path) {
-            newErrors[error.path] = error.message;
+            validationErrors[error.path] = error.message;
           }
         });
-        setErrors(newErrors);
+        setErrors(validationErrors);
       }
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
-    if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    setErrors(prev => ({ ...prev, [name]: '' }));
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          What are your main goals for this website?
-        </label>
-        <textarea
-          name="goals"
-          value={formData.goals}
-          onChange={handleChange}
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          placeholder="e.g., Increase online sales, showcase portfolio, improve brand awareness..."
-        />
-        {errors.goals && (
-          <p className="mt-1 text-sm text-red-600">{errors.goals}</p>
-        )}
-      </div>
+    <div className="min-h-screen w-full bg-gradient-to-br from-blue-300 to-red-300">
+      <div className="container mx-auto min-h-screen grid place-items-center px-4">
+        <div className="flex flex-col md:flex-row h-[1024px] w-full lg:w-[1400px] bg-white font-roboto shadow-2xl rounded-2xl overflow-hidden">
+          {/* Form Section */}
+          <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
+            <div className="flex-1 flex flex-col">
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Vision & Goals</h2>
+              <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
+                Help us understand your vision and goals for your website. This will guide our design process.
+              </p>
+              <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
+                <div className="flex-1 pt-8">
+                  <div className="grid grid-cols-1 gap-8">
+                    <div>
+                      <label className="block text-xs font-bold mb-2">Project Goals</label>
+                      <textarea
+                        name="projectGoals"
+                        value={formData.projectGoals}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="What are the main objectives you want to achieve with your website?"
+                      />
+                      {errors.projectGoals && (
+                        <p className="text-red-500 text-sm mt-2">{errors.projectGoals}</p>
+                      )}
+                    </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Who is your target audience?
-        </label>
-        <textarea
-          name="targetAudience"
-          value={formData.targetAudience}
-          onChange={handleChange}
-          rows={3}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          placeholder="e.g., Small business owners, young professionals, tech enthusiasts..."
-        />
-        {errors.targetAudience && (
-          <p className="mt-1 text-sm text-red-600">{errors.targetAudience}</p>
-        )}
-      </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2">Target Audience</label>
+                      <textarea
+                        name="targetAudience"
+                        value={formData.targetAudience}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="Describe your ideal customers or website visitors"
+                      />
+                      {errors.targetAudience && (
+                        <p className="text-red-500 text-sm mt-2">{errors.targetAudience}</p>
+                      )}
+                    </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          What features would you like to include?
-        </label>
-        <textarea
-          name="preferredFeatures"
-          value={formData.preferredFeatures}
-          onChange={handleChange}
-          rows={4}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          placeholder="e.g., Contact form, blog section, product catalog..."
-        />
-        {errors.preferredFeatures && (
-          <p className="mt-1 text-sm text-red-600">{errors.preferredFeatures}</p>
-        )}
-      </div>
+                    <div>
+                      <label className="block text-xs font-bold mb-2">Unique Selling Points</label>
+                      <textarea
+                        name="uniqueSellingPoints"
+                        value={formData.uniqueSellingPoints}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="What makes your business unique? What sets you apart from competitors?"
+                      />
+                      {errors.uniqueSellingPoints && (
+                        <p className="text-red-500 text-sm mt-2">{errors.uniqueSellingPoints}</p>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
-      <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Any websites that inspire you? (Optional)
-        </label>
-        <textarea
-          name="inspirationWebsites"
-          value={formData.inspirationWebsites}
-          onChange={handleChange}
-          rows={2}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          placeholder="List website URLs that you like..."
-        />
-      </div>
+                <div className="pt-8 grid grid-cols-2 items-center">
+                  <div className="text-xs text-gray-500 font-noto-jp">
+                    Step {activeStep + 1} of {stepCount}
+                  </div>
+                  <div className="flex justify-end space-x-4">
+                    <button
+                      type="button"
+                      onClick={previousStep}
+                      className="w-fit bg-gray-100 text-gray-700 text-sm py-2 px-4 rounded-lg hover:bg-gray-200 transition-colors"
+                    >
+                      Back
+                    </button>
+                    <button
+                      type="submit"
+                      className="w-fit bg-black text-white text-sm py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+                    >
+                      Continue
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
 
-      <div className="flex justify-between">
-        <button
-          type="button"
-          onClick={previousStep}
-          className="inline-flex justify-center rounded-md border border-gray-300 bg-white py-2 px-4 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Previous
-        </button>
-        <button
-          type="submit"
-          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          Next Step
-        </button>
+          {/* Image Section */}
+          <div className="w-full md:w-1/2 relative overflow-hidden">
+            {/* Background Image */}
+            <Image
+              src="/images/wbs_designpros_12986_different_paint_color_splash_--v_6.1_a05de3a2-31ab-4c7f-8ca7-e3ccf36580e0.png"
+              alt="Vision Background"
+              fill
+              className="object-cover"
+              priority
+            />
+            {/* Gradient Overlays */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-700/20"></div>
+            {/* Content */}
+            <div className="absolute inset-0 flex items-end justify-center p-12">
+              <div className="text-white text-left mb-12">
+                <h1 className="text-3xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
+                  &ldquo;The team took time to understand our vision and transformed it into a website that exceeded our expectations.&rdquo;
+                </h1>
+                <div className="flex items-center space-x-4">
+                  <Image 
+                    src="https://randomuser.me/api/portraits/men/32.jpg" 
+                    alt="Testimonial author" 
+                    width={48}
+                    height={48}
+                    className="rounded-full"
+                  />
+                  <div>
+                    <p className="text-white font-medium">Michael Chen</p>
+                    <p className="text-gray-300">Founder, InnovateTech</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </form>
+    </div>
   );
 };
 
