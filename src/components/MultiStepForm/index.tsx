@@ -6,7 +6,7 @@ import ContactDetails from './steps/ContactDetails';
 import GoalsVision from './steps/GoalsVision';
 import DesignPreferences from './steps/DesignPreferences';
 import ContentLogistics from './steps/ContentLogistics';
-import BudgetTimeline from './steps/BudgetTimeline';
+// import BudgetTimeline from './steps/BudgetTimeline';
 import FinalNotes from './steps/FinalNotes';
 import { MultiStepFormData } from './types';
 

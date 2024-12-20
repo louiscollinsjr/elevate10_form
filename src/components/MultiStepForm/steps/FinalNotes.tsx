@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import PackageDetailsModal from '../../Modal/PackageDetailsModal';
 import SubmissionSuccess from './SubmissionSuccess';
-
+import { submitForm } from '@/lib/services/formService';
 import { MultiStepFormData } from '../types';
 
 const validationSchema = Yup.object().shape({
@@ -27,23 +27,37 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await validationSchema.validate(formData, { abortEarly: false });
       setErrors({});
-      // Here you would typically send the form data to your backend
-      console.log('Form submitted:', formData);
-      setIsSubmitted(true);
-    } catch (err: any) {
-      const validationErrors: Record<string, string> = {};
-      err.inner.forEach((error: any) => {
-        if (error.path) {
-          validationErrors[error.path] = error.message;
-        }
-      });
-      setErrors(validationErrors);
+      
+      setIsSubmitting(true);
+      const result = await submitForm(formData);
+      
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        setErrors({ submit: 'Failed to submit form. Please try again.' });
+      }
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        const validationErrors: Record<string, string> = {};
+        error.inner.forEach((err) => {
+          if (err.path) {
+            validationErrors[err.path] = err.message;
+          }
+        });
+        setErrors(validationErrors);
+      } else {
+        console.error('Form submission error:', error);
+        setErrors({ submit: 'An unexpected error occurred. Please try again.' });
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -142,9 +156,14 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
                     </button>
                     <button
                       type="submit"
-                      className="w-fit bg-black text-white text-sm py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors"
+                      disabled={isSubmitting}
+                      className={`px-6 py-2 bg-blue-500 text-white rounded-lg transition-colors ${
+                        isSubmitting 
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'hover:bg-blue-600'
+                      }`}
                     >
-                      Submit
+                      {isSubmitting ? 'Submitting...' : 'Submit'}
                     </button>
                   </div>
                 </div>
