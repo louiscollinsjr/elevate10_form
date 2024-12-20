@@ -54,7 +54,7 @@ const MultiStepForm: React.FC = () => {
           <GoalsVision formData={formData} updateFormData={updateFormData} />
           <DesignPreferences formData={formData} updateFormData={updateFormData} />
           <ContentLogistics formData={formData} updateFormData={updateFormData} />
-          <BudgetTimeline formData={formData} updateFormData={updateFormData} />
+          {/* <BudgetTimeline formData={formData} updateFormData={updateFormData} /> */}
           <FinalNotes formData={formData} updateFormData={updateFormData} />
         </Wizard>
       </div>
