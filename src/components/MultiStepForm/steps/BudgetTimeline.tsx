@@ -4,6 +4,7 @@ import { useWizard } from 'react-use-wizard';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import Image from 'next/image';
+import { MultiStepFormData } from '../types';
 
 const validationSchema = Yup.object().shape({
   budget: Yup.string().optional(),
@@ -12,8 +13,8 @@ const validationSchema = Yup.object().shape({
 });
 
 interface Props {
-  formData: any;
-  updateFormData: (data: any) => void;
+  formData: MultiStepFormData;
+  updateFormData: (data: Partial<MultiStepFormData>) => void;
 }
 
 const BudgetTimeline = ({ formData, updateFormData }: Props) => {

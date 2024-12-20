@@ -5,20 +5,34 @@ import * as Yup from 'yup';
 import { useState } from 'react';
 import Image from 'next/image';
 
+interface FormData {
+  projectGoals: string;
+  targetAudience: string;
+  uniqueSellingPoints: string;
+  [key: string]: string;
+}
+
+interface Props {
+  formData: FormData;
+  updateFormData: (data: Partial<FormData>) => void;
+}
+
+interface FormErrors {
+  [key: string]: string | undefined;
+  projectGoals?: string;
+  targetAudience?: string;
+  uniqueSellingPoints?: string;
+}
+
 const validationSchema = Yup.object().shape({
   projectGoals: Yup.string().optional(),
   targetAudience: Yup.string().optional(),
   uniqueSellingPoints: Yup.string().optional(),
 });
 
-interface Props {
-  formData: any;
-  updateFormData: (data: any) => void;
-}
-
-const GoalsVision = ({ formData, updateFormData }: Props) => {
+const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
   const { nextStep, previousStep, activeStep, stepCount } = useWizard();
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,7 +41,7 @@ const GoalsVision = ({ formData, updateFormData }: Props) => {
       nextStep();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        const validationErrors: Record<string, string> = {};
+        const validationErrors: FormErrors = {};
         err.inner.forEach((error) => {
           if (error.path) {
             validationErrors[error.path] = error.message;

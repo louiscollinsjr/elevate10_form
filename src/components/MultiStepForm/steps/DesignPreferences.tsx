@@ -4,6 +4,7 @@ import { useWizard } from 'react-use-wizard';
 import * as Yup from 'yup';
 import { useState } from 'react';
 import Image from 'next/image';
+import { MultiStepFormData } from '../types';
 
 const validationSchema = Yup.object().shape({
   designStyle: Yup.string().optional(),
@@ -12,9 +13,10 @@ const validationSchema = Yup.object().shape({
 });
 
 interface Props {
-  formData: any;
-  updateFormData: (data: any) => void;
+  formData: MultiStepFormData;
+  updateFormData: (data: Partial<MultiStepFormData>) => void;
 }
+
 
 const DesignPreferences = ({ formData, updateFormData }: Props) => {
   const { nextStep, previousStep, activeStep, stepCount } = useWizard();
@@ -143,7 +145,7 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
             <div className="absolute inset-0 flex items-end justify-center p-12">
               <div className="text-white text-left mb-12">
                 <h1 className="text-3xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
-                  &ldquo;They perfectly captured our brand's essence in the design. The attention to detail was impressive.&rdquo;
+                  &ldquo;They perfectly captured our brand&apos;s essence in the design. The attention to detail was impressive.&rdquo;
                 </h1>
                 <div className="flex items-center space-x-4">
                   <Image 

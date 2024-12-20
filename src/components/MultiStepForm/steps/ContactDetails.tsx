@@ -1,10 +1,24 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import { useWizard } from "react-use-wizard";
 import * as Yup from "yup";
-import { useState } from "react";
+
+import { MultiStepFormData } from '../types';
+
+interface Props {
+  formData: MultiStepFormData;
+  updateFormData: (data: Partial<MultiStepFormData>) => void;
+}
+
+interface FormErrors {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  businessName?: string;
+}
 
 const validationSchema = Yup.object().shape({
   firstName: Yup.string().optional(),
@@ -14,14 +28,9 @@ const validationSchema = Yup.object().shape({
   businessName: Yup.string().optional(),
 });
 
-interface Props {
-  formData: any;
-  updateFormData: (data: any) => void;
-}
-
-const ContactDetails = ({ formData, updateFormData }: Props) => {
+const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
   const { nextStep, activeStep, stepCount } = useWizard();
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [errors, setErrors] = useState<FormErrors>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,10 +39,10 @@ const ContactDetails = ({ formData, updateFormData }: Props) => {
       nextStep();
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
-        const validationErrors: { [key: string]: string } = {};
+        const validationErrors: FormErrors = {};
         err.inner.forEach((error) => {
           if (error.path) {
-            validationErrors[error.path] = error.message;
+            validationErrors[error.path as keyof FormErrors] = error.message;
           }
         });
         setErrors(validationErrors);
@@ -44,7 +53,7 @@ const ContactDetails = ({ formData, updateFormData }: Props) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
-    if (errors[name]) {
+    if (name in errors && errors[name as keyof FormErrors]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
