@@ -80,7 +80,7 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
             <div className="flex-1 flex flex-col">
               <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Your Project Is Almost Ready</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
-              Your Vision is Taking Shape. Add any final thoughts or special requests. We’re excited to bring your project to life!
+              Your Vision is Taking Shape. Add any final thoughts or special requests. We’re excited to bring your project to life! Thank you!
               </p>
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
@@ -175,7 +175,7 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
           <div className="w-full md:w-1/2 relative overflow-hidden">
             {/* Background Image */}
             <Image
-              src="/images/wbs_designpros_12986_different_paint_color_splash_--v_6.1_a05de3a2-31ab-4c7f-8ca7-e3ccf36580e0.png"
+              src="/images/stefy07_Portrait_of_a_smiling_mature_executive_holding_a_laptop_9b210dd7-6dce-4594-8db1-cf67c8da24c1.png"
               alt="Final Notes Background"
               fill
               className="object-cover"
@@ -183,7 +183,7 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
             />
             {/* Gradient Overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-700/20"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-100/10 to-purple-700/10"></div>
             {/* Content */}
             <div className="absolute inset-0 flex items-end justify-center p-12">
               <div className="text-white text-left mb-12">
@@ -192,15 +192,15 @@ const FinalNotes = ({ formData, updateFormData }: Props) => {
                 </h1>
                 <div className="flex items-center space-x-4">
                   <Image 
-                    src="https://randomuser.me/api/portraits/men/92.jpg" 
+                    src="/images/christophershayo_27004_an_avatar_of_a_smirking_african_man_with_1fe41218-af46-4cb9-9fbe-57be1cd1052b.png" 
                     alt="Testimonial author" 
                     width={48}
                     height={48}
                     className="rounded-full"
                   />
                   <div>
-                    <p className="text-white font-medium">David Wilson</p>
-                    <p className="text-gray-300">Founder, TechStart</p>
+                    <p className="text-white font-medium">J. Daniels</p>
+                    <p className="text-gray-300 text-xs">Founder, tmg.</p>
                   </div>
                 </div>
               </div>

@@ -49,7 +49,7 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
       <div className="container mx-auto min-h-screen grid place-items-center px-4">
         <div className="flex flex-col md:flex-row h-[1024px] w-full lg:w-[1400px] bg-white font-roboto shadow-2xl rounded-2xl overflow-hidden">
           {/* Form Section */}
-          <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
+          <div className="w-full md:w-[42%] p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
               <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Style & Examples</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
@@ -113,25 +113,25 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
           </div>
 
           {/* Image Section */}
-          <div className="w-full md:w-1/2 relative overflow-hidden">
+          <div className="w-full md:w-[58%] relative overflow-hidden">
             {/* Background Image */}
             <Image
-              src="/images/wbs_designpros_12986_different_paint_color_splash_--v_6.1_a05de3a2-31ab-4c7f-8ca7-e3ccf36580e0.png"
+              src="/images/jesuscrisis_a_group_of_happy_tech_customers_using_orange_blue_a_913e2a1d-1a9f-4802-88a3-b31c12e7d0f3.png"
               alt="Design Background"
               fill
               className="object-cover"
               priority
             />
             {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-700/20"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-orange-700/0"></div>
             {/* Content */}
             <div className="absolute inset-0 flex items-end justify-center p-12">
-              <div className="text-white text-left mb-12">
-                <h1 className="text-3xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
-                  &ldquo;They perfectly captured our brand&apos;s essence in the design. The attention to detail was impressive.&rdquo;
+              <div className="text-white text-center mb-2 bg-gray-900/80 rounded-xl p-4">
+                <h1 className="text-xs font-normal text-white leading-relaxed tracking-wide font-roboto shadow-none max-w-xl">
+                Your brand&apos;s essence with designs crafted to perfection and attention to detail - atem.
                 </h1>
-                <div className="flex items-center space-x-4">
+                {/* <div className="flex items-center space-x-4">
                   <Image 
                     src="https://randomuser.me/api/portraits/women/68.jpg" 
                     alt="Testimonial author" 
@@ -139,11 +139,11 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
                     height={48}
                     className="rounded-full"
                   />
-                  <div>
+                 <div>
                     <p className="text-white font-medium">Emily Rodriguez</p>
                     <p className="text-gray-300">Creative Director, Design Hub</p>
-                  </div>
-                </div>
+                  </div>  
+                </div>*/}
               </div>
             </div>
           </div>

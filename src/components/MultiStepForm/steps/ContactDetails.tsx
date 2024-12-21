@@ -46,7 +46,8 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
     e.preventDefault();
     try {
       await validationSchema.validate(formData, { abortEarly: false });
-      nextStep();
+      setErrors({}); // Clear all errors
+      nextStep(); // Move to the next step
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const validationErrors: FormErrors = {};
@@ -56,15 +57,26 @@ const ContactDetails: React.FC<Props> = ({ formData, updateFormData }) => {
           }
         });
         setErrors(validationErrors);
+        console.log('Validation errors:', validationErrors); // For debugging
       }
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const updatedData = { ...formData, [name]: value };
     updateFormData({ [name]: value });
-    if (name in errors && errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: "" }));
+
+    // Clear the specific error
+    setErrors(prev => ({ ...prev, [name]: "" }));
+
+    // Validate just this field
+    try {
+      await validationSchema.validateAt(name, updatedData);
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        setErrors(prev => ({ ...prev, [name]: err.message }));
+      }
     }
   };
 

@@ -63,7 +63,7 @@ const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
       <div className="container mx-auto min-h-screen grid place-items-center px-4">
         <div className="flex flex-col md:flex-row h-[1024px] w-full lg:w-[1400px] bg-white font-roboto shadow-2xl rounded-2xl overflow-hidden">
           {/* Form Section */}
-          <div className="w-full md:w-1/2 p-8 px-20 flex flex-col h-full">
+          <div className="w-full md:w-[42%] p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
               <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Project Goals and Vision</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
@@ -141,10 +141,10 @@ const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
           </div>
 
           {/* Image Section */}
-          <div className="w-full md:w-1/2 relative overflow-hidden">
+          <div className="w-full md:w-[58%] relative overflow-hidden">
             {/* Background Image */}
             <Image
-              src="/images/wbs_designpros_12986_different_paint_color_splash_--v_6.1_a05de3a2-31ab-4c7f-8ca7-e3ccf36580e0.png"
+              src="/images/faqmarketing1023_russian_woman_at_laptop_approximately_45-50_ye_115ad605-e8aa-4c8c-a72c-88948008c73b.png"
               alt="Vision Background"
               fill
               className="object-cover"
@@ -152,24 +152,24 @@ const GoalsVision: React.FC<Props> = ({ formData, updateFormData }) => {
             />
             {/* Gradient Overlays */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-700/20"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-purple-700/20"></div> */}
             {/* Content */}
-            <div className="absolute inset-0 flex items-end justify-center p-12">
+            <div className="absolute inset-0 flex items-end justify-left p-12">
               <div className="text-white text-left mb-12">
-                <h1 className="text-3xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
-                  &ldquo;The team took time to understand our vision and transformed it into a website that exceeded our expectations.&rdquo;
+                <h1 className="text-3xl max-w-xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
+                  &ldquo;The one thing that you have that nobody else has is you. Your voice, your mind, , your story, your vision.&rdquo;
                 </h1>
                 <div className="flex items-center space-x-4">
-                  <Image 
+                  {/* <Image 
                     src="https://randomuser.me/api/portraits/men/32.jpg" 
                     alt="Testimonial author" 
                     width={48}
                     height={48}
                     className="rounded-full"
-                  />
+                  /> */}
                   <div>
-                    <p className="text-white font-medium">Michael Chen</p>
-                    <p className="text-gray-300">Founder, InnovateTech</p>
+                    <p className="text-white font-medium">Neil Gaiman</p>
+                    <p className="text-gray-300">Writer</p>
                   </div>
                 </div>
               </div>
