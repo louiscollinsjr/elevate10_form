@@ -9,6 +9,8 @@ import { MultiStepFormData } from "../types";
 const validationSchema = Yup.object().shape({
   designStyle: Yup.string().optional(),
   websiteExamples: Yup.string().optional(),
+  domainWebsite: Yup.string().url('Please enter a valid URL').optional(),
+  socialMediaLinks: Yup.string().optional(),
 });
 
 interface Props {
@@ -56,7 +58,7 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
               <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">
                 Style & Examples
               </h2>
-              <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
+              <p className="text-base font-medium text-gray-400 mb-2 max-w-[85%]">
                 Tell us about your design preferences to help us create designs
                 that matches your style.
               </p>
@@ -95,6 +97,43 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
                       {errors.websiteExamples && (
                         <p className="text-red-500 text-sm mt-2">
                           {errors.websiteExamples}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold mb-2">
+                        Domain/Website URL
+                      </label>
+                      <input
+                        type="url"
+                        name="domainWebsite"
+                        value={formData.domainWebsite || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter your current website URL (if any)"
+                      />
+                      {errors.domainWebsite && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {errors.domainWebsite}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold mb-2">
+                        Social Media Accounts
+                      </label>
+                      <textarea
+                        name="socialMediaLinks"
+                        value={formData.socialMediaLinks || ''}
+                        onChange={handleChange}
+                        className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 h-32"
+                        placeholder="List your social media links (Instagram, LinkedIn, Twitter, etc.)"
+                      />
+                      {errors.socialMediaLinks && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {errors.socialMediaLinks}
                         </p>
                       )}
                     </div>

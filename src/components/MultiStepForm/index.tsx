@@ -23,6 +23,8 @@ const MultiStepForm: React.FC = () => {
     uniqueSellingPoints: '',
     designStyle: '',
     websiteExamples: '',
+    domainWebsite: '',
+    socialMediaLinks: '',
     contentTypes: '',
     needsContentHelp: 'false',
     otherContentType: '',

@@ -11,6 +11,8 @@ export interface MultiStepFormData {
   uniqueSellingPoints: string;
   designStyle: string;
   websiteExamples: string;
+  domainWebsite: string;
+  socialMediaLinks: string;
   contentTypes: string;
   needsContentHelp: string;
   otherContentType: string;
