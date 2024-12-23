@@ -54,7 +54,7 @@ const ContentLogistics = ({ formData, updateFormData }: Props) => {
           {/* Form Section */}
           <div className="w-full md:w-[42%] p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
-              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Content & Logistics</h2>
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Content</h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
                 Let us know about your content needs and any special requirements for your website.
               </p>
