@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useWizard } from 'react-use-wizard';
-import * as Yup from 'yup';
-import { useState } from 'react';
-import Image from 'next/image';
-import { MultiStepFormData } from '../types';
+import { useWizard } from "react-use-wizard";
+import * as Yup from "yup";
+import { useState } from "react";
+import Image from "next/image";
+import { MultiStepFormData } from "../types";
 
 const validationSchema = Yup.object().shape({
   designStyle: Yup.string().optional(),
@@ -38,10 +38,12 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
-    setErrors(prev => ({ ...prev, [name]: '' }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   return (
@@ -51,15 +53,20 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
           {/* Form Section */}
           <div className="w-full md:w-[42%] p-8 px-20 flex flex-col h-full">
             <div className="flex-1 flex flex-col">
-              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">Style & Examples</h2>
+              <h2 className="text-2xl font-bold mb-2 pt-24 font-roboto">
+                Style & Examples
+              </h2>
               <p className="text-base font-medium text-gray-400 mb-6 max-w-[85%]">
-                Tell us about your design preferences to help us create designs that matches your style.
+                Tell us about your design preferences to help us create designs
+                that matches your style.
               </p>
               <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
                 <div className="flex-1 pt-8">
                   <div className="grid grid-cols-1 gap-8">
                     <div>
-                      <label className="block text-xs font-bold mb-2">Brand Guidelines/Preferences</label>
+                      <label className="block text-xs font-bold mb-2">
+                        Brand Guidelines/Preferences
+                      </label>
                       <textarea
                         name="designStyle"
                         value={formData.designStyle}
@@ -68,12 +75,16 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
                         placeholder="What colors or styles match your business? (e.g., modern, minimalist, bold, traditional)"
                       />
                       {errors.designStyle && (
-                        <p className="text-red-500 text-sm mt-2">{errors.designStyle}</p>
+                        <p className="text-red-500 text-sm mt-2">
+                          {errors.designStyle}
+                        </p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold mb-2">Inspiration (Similar projects/companies you admire)</label>
+                      <label className="block text-xs font-bold mb-2">
+                        Inspiration (Similar projects/companies you admire)
+                      </label>
                       <textarea
                         name="websiteExamples"
                         value={formData.websiteExamples}
@@ -82,7 +93,9 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
                         placeholder="Share links to websites you like or find inspiring"
                       />
                       {errors.websiteExamples && (
-                        <p className="text-red-500 text-sm mt-2">{errors.websiteExamples}</p>
+                        <p className="text-red-500 text-sm mt-2">
+                          {errors.websiteExamples}
+                        </p>
                       )}
                     </div>
                   </div>
@@ -123,14 +136,19 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
               priority
             />
             {/* Gradient Overlays */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent"></div>
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-orange-700/0"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent"></div>
+            {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-600/0 to-orange-700/0"></div> */}
             {/* Content */}
             <div className="absolute inset-0 flex items-end justify-center p-12">
-              <div className="text-white text-center mb-2 bg-gray-900/80 rounded-xl p-4">
-                <h1 className="text-xs font-normal text-white leading-relaxed tracking-wide font-roboto shadow-none max-w-xl">
+              <div className="text-white text-center mb-2">
+                {/* <h1 className="text-xs font-normal text-white leading-relaxed tracking-wide font-roboto shadow-none max-w-xl">
                 Your brand&apos;s essence with designs crafted to perfection and attention to detail - atem.
+                </h1> */}
+                <h1 className="text-3xl max-w-xl font-normal text-white mb-8 font-roboto tracking-wide leading-relaxed">
+                  &ldquo;The one thing that you have that nobody else has is
+                  you. Your voice, your mind, , your story, your vision.&rdquo;
                 </h1>
+
                 {/* <div className="flex items-center space-x-4">
                   <Image 
                     src="https://randomuser.me/api/portraits/women/68.jpg" 
