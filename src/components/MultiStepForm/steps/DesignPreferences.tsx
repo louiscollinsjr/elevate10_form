@@ -9,7 +9,7 @@ import { MultiStepFormData } from "../types";
 const validationSchema = Yup.object().shape({
   designStyle: Yup.string().optional(),
   websiteExamples: Yup.string().optional(),
-  domainWebsite: Yup.string().url('Please enter a valid URL').optional(),
+  domainWebsite: Yup.string().optional(),
   socialMediaLinks: Yup.string().optional(),
 });
 
@@ -106,7 +106,7 @@ const DesignPreferences = ({ formData, updateFormData }: Props) => {
                         Domain/Website URL
                       </label>
                       <input
-                        type="url"
+                        type="text"
                         name="domainWebsite"
                         value={formData.domainWebsite || ''}
                         onChange={handleChange}

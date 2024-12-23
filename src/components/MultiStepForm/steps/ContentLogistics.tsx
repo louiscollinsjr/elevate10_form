@@ -85,11 +85,11 @@ const ContentLogistics = ({ formData, updateFormData }: Props) => {
                             className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all ${
                               formData.contentTypes?.includes(name)
                                 ? 'bg-blue-50 border-2 border-blue-500 text-blue-700'
-                                : 'bg-white border border-gray-200 text-gray-600 hover:border-blue-200 hover:bg-blue-50'
+                                : 'bg-white border-2 border-gray-200 text-gray-600 hover:border-blue-200 hover:bg-blue-50'
                             }`}
                           >
                             <Icon className="w-6 h-6 mb-2" weight={formData.contentTypes?.includes(name) ? "fill" : "regular"} />
-                            <span className="text-sm font-medium">{name}</span>
+                            <span className="text-xs font-medium">{name}</span>
                           </button>
                         ))}
                       </div>
